@@ -5,22 +5,16 @@ export interface User {
   avatarUrl: string;
 }
 
-interface Post {
-  id: number;
-  userid: number;
-  content: string;
-}
-
 const generateAvatarUrl = (userId: number) => {
   const randomSeed = userId + Math.floor(Math.random() * 1000);
   return `https://api.dicebear.com/7.x/avataaars/svg?seed=${randomSeed}`;
 };
 
 async function getUsers() {
-  const res = await fetch(`${process.env.ENDPOINT}users`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}users`, {
     next: { revalidate: 1800 },
     headers: {
-      Authorization: `Bearer ${process.env.API_SECRET_TOKEN}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       "Content-Type": "application/json",
     },
   });
@@ -42,13 +36,16 @@ async function getUsers() {
 }
 
 async function getPostsForUser(userId: number) {
-  const res = await fetch(`${process.env.ENDPOINT}users/${userId}/posts`, {
-    next: { revalidate: 1800 },
-    headers: {
-      Authorization: `Bearer ${process.env.API_SECRET_TOKEN}`,
-      "Content-Type": "application/json",
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_ENDPOINT}users/${userId}/posts`,
+    {
+      next: { revalidate: 1800 },
+      headers: {
+        Authorization: `Bearer ${process.env.API_SECRET_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
 
   if (!res.ok) {
     return { posts: [] };
