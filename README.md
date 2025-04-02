@@ -9,6 +9,7 @@ insight on users, their posts, comments associated with each post, run exclusive
 
 ### Pages
 top users
+- will probably not refresh as fast so using a server component along with a 30minute cache time 
 
 trending posts
 
